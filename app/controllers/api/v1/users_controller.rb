@@ -3,10 +3,14 @@ class Api::V1::UsersController < ApplicationController
     render_json_success User.all.order(created_at: :desc)
   end
 
+  def show
+    render_json_success User.find(params[:id]), :ok, include_goals: true
+  end
+
   def create
     user = User.new(user_params)
     if user.save
-      render_json_success user
+      render_json_success(user)
     else
       render_json_error(user.errors)
     end

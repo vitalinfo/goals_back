@@ -1,9 +1,12 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :average_goal
+  attributes :id, :first_name, :last_name, :average_score, :goals
 
-  # has_many :goals
+  def goals
+    return [] unless instance_options[:include_goals]
+    ActiveModel::Serializer::CollectionSerializer.new(object.goals, serializer: GoalSerializer)
+  end
 
-  # def average_goal
-  #   object.goals.average(:score)
-  # end
+  def average_score
+    object.goals.average(:score)
+  end
 end
