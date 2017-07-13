@@ -7,6 +7,6 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def average_score
-    object.goals.average(:score)
+    object.goals.average(:score) || 0
   end
 end
